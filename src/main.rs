@@ -145,11 +145,12 @@ fn exception(status: Status, req: &Request) -> Json<resp::ResultData<resp::Activ
         data: None,
     })
 }
-
+//"postgres://postgres:password@192.168.120.137/registration_system"
 #[launch]
 async fn rocket() -> _ {
+    let url = std::env::var("DATABASE_URL").unwrap_or("postgres://postgres:password@192.168.120.137/registration_system".to_string());
     let registration_system =
-        RegistrationSystem::new("postgres://postgres:password@192.168.120.137/registration_system")
+        RegistrationSystem::new(url.as_str())
             .await
             .expect("Failed to create registration system");
 
